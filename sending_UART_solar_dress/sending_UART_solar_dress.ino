@@ -1,27 +1,31 @@
 /*
 * 
-* testing script
-* running on a atmega328, using Jeelib.h
-* Data coming from UART (Raspberry) are sent with a RF12 transceiver
-* contrechoc 2013
-*
-*
-*/
+ * testing script
+ * running on a atmega328, using Jeelib.h
+ * Data coming from UART (Raspberry) are sent with a RF12 transceiver
+ * contrechoc 2013
+ *
+ *
+ */
 
 
 #include <JeeLib.h>
 
-
-char inputString[] = "hello world!";         // a string to hold incoming data
+char inputString[] = {
+  '#','*', B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111
+, B11110000,B00001111,B11110000,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111
+} ;         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 unsigned char c = 0;
-char buf7[] = {    
-  "012345678901234567890123456789012345678901234567890123456789"       };
+char buf7[] = {
+  '#','*', B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111, 
+B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111,B00001111} 
+; 
 
 
 int outputLED = 13;
 
-unsigned char bufferLength = 9;
+unsigned char bufferLength = 20;
 
 unsigned char offOn = 0;
 
@@ -37,8 +41,7 @@ void setup(){
   digitalWrite(outputLED,LOW);
 
   //send test
-  c =10;
-  rf12_sendStart(0, inputString, c , 0);
+  rf12_sendStart(0, inputString, bufferLength , 0);
 
 }
 
@@ -82,6 +85,5 @@ void sendChars(){
 
 
 }
-
 
 
